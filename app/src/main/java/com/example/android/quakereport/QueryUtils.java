@@ -41,8 +41,7 @@ public final class QueryUtils {
      * parsing a JSON response.
      */
     public static ArrayList<Earthquake> extractEarthquakes() {
-
-      //  long time = properties.getLong("time");
+        // Extract the value for the key called "mag"
 
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<Earthquake> earthquakes = new ArrayList<>();
@@ -56,11 +55,18 @@ public final class QueryUtils {
             for(int i=0;i< earthquakeArray.length();i++){
                 JSONObject currentEarthquake=earthquakeArray.getJSONObject(i);
                 JSONObject properties= currentEarthquake.getJSONObject("properties");
-                String magnitude= properties.getString("mag");
+                double magnitude= properties.getDouble("mag");
                 String location= properties.getString("place");
-                String time= properties.getString("time");
+                long time= properties.getLong("time");
 
-                Earthquake earthquake = new Earthquake(magnitude,location,time);
+                // Extract the value for the key called "url"
+                String url = properties.getString("url");
+
+                // Create a new {@link Earthquake} object with the magnitude, location, time,
+                // and url from the JSON response.
+                Earthquake earthquake = new Earthquake(magnitude, location, time, url);
+
+//                Earthquake earthquake = new Earthquake(magnitude,location,time);
                 earthquakes.add(earthquake);
             }
 
